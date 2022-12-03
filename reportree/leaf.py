@@ -13,7 +13,6 @@ class Leaf(IRTree):
     over many rows of plots, with maximum row width given by num_cols.
     """
 
-    # should I put IWriter also on init? it is probably useless... and how about entry, the same?
     def __init__(self, plots: Union[RTPlot, Sequence[RTPlot]], title: str = None, num_cols: int = 3):
         if not isinstance(plots, Sequence):
             plots = [plots]
@@ -22,10 +21,10 @@ class Leaf(IRTree):
         if title:
             self._title = title
         else:
-            if self._plots[0].suptitle:
+            if self._plots[0]._suptitle:
                 self._title = self._plots[0]._suptitle.get_text()
-            elif self._plots[0].axes[0].get_title().get_text():
-                self._title = self._plots[0].axes[0].get_title().get_text()
+            elif self._plots[0].axes[0].get_title():
+                self._title = self._plots[0].axes[0].get_title()
             else:
                 self._title = 'Leaf'
 
