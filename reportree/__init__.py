@@ -76,5 +76,6 @@ from .rtree import IRTree, RTPlot
 from .leaf import Leaf
 from .branch import Branch
 from .path import Path
+from . import io
 
 __author__ = 'Tomas Protivinsky'
