@@ -54,14 +54,14 @@ Basic example
 
 The code produces following reports:
 
-.. image:: doc/example1.png
+.. image:: doc/images/example1.png
   :width: 800
   :alt: Example 1
 
-.. image:: doc/example2.png
+.. image:: doc/images/example2.png
   :width: 800
   :alt: Example 2
 
-.. image:: doc/example3.png
+.. image:: doc/images/example3.png
   :width: 800
   :alt: Example 3
