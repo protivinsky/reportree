@@ -8,6 +8,10 @@ from yattag import Doc, indent
 
 
 class Leaf(IRTree):
+    """Leaf is displayed as a single HTML page. Leaf takes either matplotlib.figure.Figure or
+    matplotlib.axes.Axes as input, either a single one or as a sequence. Sequence is then displayed
+    over many rows of plots, with maximum row width given by num_cols.
+    """
 
     # should I put IWriter also on init? it is probably useless... and how about entry, the same?
     def __init__(self, plots: Union[RTPlot, Sequence[RTPlot]], title: str = None, num_cols: int = 3):
@@ -28,7 +32,7 @@ class Leaf(IRTree):
     def save(self, path: str, writer: IWriter = LocalWriter, entry: str = 'index.html'):
         n = len(self._plots)
         for i, f in enumerate(self._plots):
-            writer.write_figure(os.path.join(path, 'fig_{i+1:03d}.png'), f)
+            writer.write_figure(os.path.join(path, f'fig_{i+1:03d}.png'), f)
         plt.close('all')
 
         doc, tag, text = Doc().tagtext()
