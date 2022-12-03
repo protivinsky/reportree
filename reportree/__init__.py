@@ -78,4 +78,4 @@ from .path import Path
 from . import io
 
 __author__ = 'Tomas Protivinsky'
-__version__ = '0.0.1'
+__version__ = '0.0.2'
