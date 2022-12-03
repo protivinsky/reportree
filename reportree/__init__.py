@@ -48,16 +48,25 @@ Basic example
 
 The code produces following reports:
 
-.. image:: doc/example1.png
-  :width: 800
+Leaf example
+............
+
+.. image:: images/example1.png
+  :width: 1000
   :alt: Example 1
 
-.. image:: doc/example2.png
-  :width: 800
+Branch example
+..............
+
+.. image:: images/example2.png
+  :width: 1000
   :alt: Example 2
 
-.. image:: doc/example3.png
-  :width: 800
+Nested example
+..............
+
+.. image:: images/example3.png
+  :width: 1000
   :alt: Example 3
 
 """

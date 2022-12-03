@@ -3,7 +3,7 @@
 ReporTree: Nested HTML reports for Matplotlib
 =============================================
 
-.. automodule:: omoment
+.. automodule:: reportree
    :show-inheritance:
 
 .. toctree::

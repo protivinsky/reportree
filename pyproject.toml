@@ -28,6 +28,7 @@ classifiers = [
 ]
 dependencies = [
     "matplotlib >= 3.0.0",
+    "yattag >= 1.10.0",
 ]
 
 [project.optional-dependencies]

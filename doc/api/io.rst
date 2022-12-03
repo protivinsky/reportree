@@ -1,7 +1,6 @@
 IO
 ==
 
-.. autoclass:: reportree.io
+.. automodule:: reportree.io
    :members:
    :undoc-members:
-   :show-inheritance:

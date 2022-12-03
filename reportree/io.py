@@ -21,6 +21,9 @@ def slugify(value, allow_unicode=False):
 
 
 class IWriter(ABC):
+    """IWriter saves an HTML page or a matplotlib figure to a given path. Can be subclassed to allow
+    for storing the reports in distributed storages such as on AWS or GCP.
+    """
 
     @staticmethod
     @abstractmethod
@@ -34,6 +37,8 @@ class IWriter(ABC):
 
 
 class LocalWriter(IWriter):
+    """Default writer that stores pages and images only locally.
+    """
 
     @staticmethod
     def write_text(path: str, text: str):
