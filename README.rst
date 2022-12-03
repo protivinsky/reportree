@@ -55,13 +55,13 @@ Basic example
 The code produces following reports:
 
 .. image:: doc/images/example1.png
-  :width: 800
+  :width: 1000
   :alt: Example 1
 
 .. image:: doc/images/example2.png
-  :width: 800
+  :width: 1000
   :alt: Example 2
 
 .. image:: doc/images/example3.png
-  :width: 800
+  :width: 1000
   :alt: Example 3
