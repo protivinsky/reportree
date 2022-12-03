@@ -57,21 +57,21 @@ The code produces following reports:
 Leaf example
 ............
 
-.. image:: doc/images/example1.png
+.. image:: https://raw.githubusercontent.com/protivinsky/reportree/doc/images/example1.png
   :width: 1000
   :alt: Example 1
 
 Branch example
 ..............
 
-.. image:: doc/images/example2.png
+.. image:: https://raw.githubusercontent.com/protivinsky/reportree/doc/images/example2.png
   :width: 1000
   :alt: Example 2
 
 Nested example
 ..............
 
-.. image:: doc/images/example3.png
+.. image:: https://raw.githubusercontent.com/protivinsky/reportree/doc/images/example3.png
   :width: 1000
   :alt: Example 3
 
