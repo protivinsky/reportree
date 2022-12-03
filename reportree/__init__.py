@@ -71,7 +71,6 @@ Nested example
 
 """
 
-from .version import VERSION as __version__
 from .rtree import IRTree, RTPlot
 from .leaf import Leaf
 from .branch import Branch
@@ -79,3 +78,4 @@ from .path import Path
 from . import io
 
 __author__ = 'Tomas Protivinsky'
+__version__ = '0.0.1'
