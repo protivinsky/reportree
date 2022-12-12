@@ -34,16 +34,15 @@ class Leaf(IRTree):
             writer.write_figure(os.path.join(path, f'fig_{i+1:03d}.png'), f)
         plt.close('all')
 
-        doc, tag, text = Doc().tagtext()
+        doc, tag, text, line = Doc().ttl()
 
         doc.asis('<!DOCTYPE html>')
         with tag('html'):
             with tag('head'):
-                with tag('title'):
-                    text(self._title)
+                doc.stag('meta', charset='UTF-8')
+                line('title', self._title)
             with tag('body'):
-                with tag('h1'):
-                    text(self._title)
+                line('h1', self._title)
                 num_rows = (n + self._num_cols - 1) // self._num_cols
                 for r in range(num_rows):
                     with tag('div'):

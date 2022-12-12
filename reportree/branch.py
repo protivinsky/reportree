@@ -19,28 +19,44 @@ class Branch(IRTree):
         This issue can be solved by using Mozilla Firefox for local browsing with changing
         `security.fileuri.strict_origin_policy` to `false` (in `about:config`).
 
+    Args:
+        children: List of children nodes.
+        title: Title of the produced HTML page.
+        labels: Button labels to access children pages. If not provided, children's titles are used as labels.
     """
 
-    def __init__(self, children: Union[IRTree, RTPlot, Sequence[Union[IRTree, RTPlot]]], title: Optional[str] = None):
+    def __init__(self,
+                 children: Union[IRTree, RTPlot, Sequence[Union[IRTree, RTPlot]]],
+                 title: Optional[str] = None,
+                 labels: Optional[Union[str, Sequence[str]]] = None):
         if not isinstance(children, Sequence):
             children = [children]
         self._children = [ch if isinstance(ch, IRTree) else Leaf(ch) for ch in children]
         self._title = title or 'Branch'
+        if labels is None:
+            labels = [ch._title for ch in self._children]
+            if len(set(labels)) < len(labels):
+                labels = [f'{t}_{i:02d}' for i, t in enumerate(labels)]
+        else:
+            if not isinstance(labels, Sequence):
+                labels = [labels]
+            if len(self._children) != len(labels):
+                raise TypeError('Labels have to have the same length as children.')
+            if len(set(labels)) < len(labels):
+                raise ValueError('Provided labels have to be unique.')
+        self._labels = labels
 
     def save(self, path: str, writer: IWriter = LocalWriter, entry: str = 'index.html'):
-        ch_titles = [ch._title for ch in self._children]
-        if len(set(ch_titles)) < len(ch_titles):
-            ch_titles = [f'{t}_{i:02d}' for i, t in enumerate(ch_titles)]
-        for t, ch in zip(ch_titles, self._children):
-            ch.save(os.path.join(path, slugify(t)), writer=writer, entry=entry)
+        for lbl, ch in zip(self._labels, self._children):
+            ch.save(os.path.join(path, slugify(lbl)), writer=writer, entry=entry)
 
         doc, tag, text, line = Doc().ttl()
 
         doc.asis('<!DOCTYPE html>')
         with tag('html'):
             with tag('head'):
-                with tag('title'):
-                    text(self._title)
+                doc.stag('meta', charset='UTF-8')
+                line('title', self._title)
                 with tag('script'):
                     doc.asis("""
                       function loader(target, file) {
@@ -70,14 +86,12 @@ class Branch(IRTree):
                       }
                     """)
             with tag('body'):
-                with tag('h1'):
-                    text(self._title)
+                line('h1', self._title)
                 with tag('div'):
-                    for t in ch_titles:
-                        line('button', t, type='button', onclick='loader(\'content\', \'{}\')'.format(slugify(t)))
-                with tag('div', id='content'):
-                    text('')
+                    for lbl in self._labels:
+                        line('button', lbl, type='button', onclick='loader(\'content\', \'{}\')'.format(slugify(lbl)))
+                line('div', '', id='content')
                 with tag('script'):
-                    doc.asis('loader(\'content\', \'{}\')'.format(slugify(ch_titles[0])))
+                    doc.asis('loader(\'content\', \'{}\')'.format(slugify(self._labels[0])))
 
         writer.write_text(os.path.join(path, entry), indent(doc.getvalue()))
