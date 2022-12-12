@@ -20,7 +20,7 @@ from reportree import IRTree, Leaf, Branch, Path
 project = 'ReporTree'
 copyright = '2022, Tomas Protivinsky'
 author = 'Tomas Protivinsky'
-release = '0.0.1'
+release = '0.0.3'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
