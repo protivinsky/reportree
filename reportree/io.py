@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 import matplotlib.pyplot as plt
 import re
 import unicodedata
+from yattag import indent
 
 
 def slugify(value, allow_unicode=False):
@@ -51,3 +52,25 @@ class LocalWriter(IWriter):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         figure.savefig(path)
 
+
+class InjectWriter(IWriter):
+    """Writer that injects a certain text before a provided pattern in the resulting HTML. Handy for including custom
+    CSS styles, google fonts or other content into head.
+    """
+
+    _pattern = '</head>'
+    _value = ''
+    _writer = LocalWriter
+
+    def __init__(self, pattern=_pattern, value=_value, writer=_writer):
+        self.pattern = pattern
+        self.value = value
+        self.writer = writer
+
+    def write_text(self, path: str, text: str):
+        text = text.replace(self.pattern, self.value + self.pattern)
+        text = indent(text)
+        self.writer.write_text(path, text)
+
+    def write_figure(self, path: str, figure: plt.Figure):
+        self.writer.write_figure(path, figure)

@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.0.4 (2023-01-21)
+--------------------------
+
+* Basic implementation of `Path` allowing to load existing report and wrap it into `Branch`.
+* `InjectWriter` to provide at least some support for custom CSS, javascript etc.
+
+
 Version 0.0.3 (2022-12-13)
 --------------------------
 

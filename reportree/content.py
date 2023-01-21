@@ -24,6 +24,7 @@ class Content(IRTree):
     def save(self, path: str, writer: IWriter = LocalWriter, entry: str = 'index.html'):
         if self._body_only:
             doc, tag, text, line = Doc().ttl()
+            doc.asis('<!DOCTYPE html>')
             with tag('html'):
                 with tag('head'):
                     doc.stag('meta', charset='UTF-8')
