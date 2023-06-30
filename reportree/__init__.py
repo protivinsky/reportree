@@ -76,7 +76,8 @@ from .leaf import Leaf
 from .branch import Branch
 from .path import Path
 from .content import Content
+from .doc import Switcher, Doc
 from . import io
 
 __author__ = 'Tomas Protivinsky'
-__version__ = '0.0.4'
+__version__ = '0.0.5'

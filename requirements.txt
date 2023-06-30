@@ -1,2 +1,4 @@
 matplotlib>=3.0.0
+seaborn
 yattag>=1.10.0
+markdown
