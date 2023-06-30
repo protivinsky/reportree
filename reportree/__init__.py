@@ -80,4 +80,4 @@ from .doc import Switcher, Doc
 from . import io
 
 __author__ = 'Tomas Protivinsky'
-__version__ = '0.0.6'
+__version__ = '0.0.7'

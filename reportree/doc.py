@@ -93,6 +93,8 @@ class Doc(yt.Doc):
             with doc.tag('head'):
                 doc.stag('meta', charset='UTF-8')
                 doc.line('title', title)
+                with doc.tag('style'):
+                    doc.asis(html_parts.css_base)
                 if head_doc is not None:
                     doc.asis(head_doc.getvalue())
             with doc.tag('body'):
