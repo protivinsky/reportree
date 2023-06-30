@@ -10,8 +10,8 @@ import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import seaborn as sns
-from generic_tree import GenericTree
-import html_parts
+from reportree.generic_tree import GenericTree
+import reportree.html_parts as html_parts
 from reportree.io import LocalWriter, IWriter
 
 
