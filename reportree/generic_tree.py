@@ -12,7 +12,7 @@ class GenericTree(defaultdict):
     _LEAF_KEY = '_value'
 
     def __init__(self, *args, **kwargs):
-        super().__init__(GenericTree, *args, **kwargs)
+        super().__init__(self.__class__, *args, **kwargs)
 
     def __getitem__(self, key):
         if self.is_leaf():
@@ -158,7 +158,10 @@ class GenericTree(defaultdict):
     copy = __copy__
 
     def __str__(self):
-        inner = f'"{self._LEAF_KEY}" = {self.get_value()}' if self.is_leaf() else '", "'.join(self.keys())
+        if self.is_leaf():
+            inner = f'"{self._LEAF_KEY}" = {self.get_value()}'
+        else:
+            inner = '"' + '", "'.join(self.keys()) + '"' if self.keys() else ''
         return f'{self.__class__.__name__}[{inner}]'
 
     __repr__ = __str__
