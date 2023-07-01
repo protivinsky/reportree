@@ -76,11 +76,15 @@ class Switcher(GenericTree):
 
 class Doc(yt.Doc):
     def __init__(self, *args, **kwargs):
-        self._wrap_kwargs = {'max_width': kwargs.pop('max_width')} if 'max_width' in kwargs else {}
+        self._wrap_kwargs = {}
+        if 'max_width' in kwargs:
+            self._wrap_kwargs['max_width'] = kwargs.pop('max_width')
+        if 'title' in kwargs:
+            self._wrap_kwargs['title'] = kwargs.pop('title')
         super().__init__(*args, **kwargs)
         self._has_switcher = False
 
-    def wrap_to_page(self, title: Optional[str] = None, head_doc: Optional[yt.Doc] = None, **kwargs):
+    def wrap_to_page(self, head_doc: Optional[yt.Doc] = None, **kwargs):
         """Wrap the content of the document into a full HTML page.
 
         Args:
@@ -96,7 +100,7 @@ class Doc(yt.Doc):
             css = css_base()
             body_klass = 'container full-width'
 
-        title = title or 'Yattag Doc'
+        title = kwargs.pop('title', 'ReporTree Doc')
         doc = Doc()
         doc.asis('<!DOCTYPE html>')
         with doc.tag('html'):
