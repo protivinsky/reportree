@@ -1,18 +1,27 @@
-css_base = """
-body {
+def css_base(max_width=None):
+    return f"""
+body {{
   font-family: "Libre Franklin", sans-serif;
   color: #444;
   font-size: 90%;
   font-weight: 300;
-  margin: 20px 40px;
-  // width: 1280px;
-}
+}}
 
-b, strong {
+.container {{
+  max-width: {max_width or 1900}px; /* Default max-width */
+  margin: 0;
+  padding: 20px;
+}}
+
+.container.full-width {{
+  max-width: none; /* Remove max-width for full-width display */
+}}
+
+b, strong {{
   font-weight: 600;
-}
+}}
 
-code {
+code {{
   font-size: 120%;
   background-color: #f5f5f5;
   border-radius: 5px;
@@ -21,11 +30,11 @@ code {
   display: block;
   width: auto;
   white-space: pre-wrap;
-}
+}}
 
-.color_table td, .color_table th {
+.color_table td, .color_table th {{
     padding: 8px
-}
+}}
 """
 
 

@@ -20,6 +20,7 @@ def _fig_to_image_data(fig: mpl.Figure, format='png'):
     fig.savefig(image, format=format)
     return base64.encodebytes(image.getvalue()).decode('utf-8')
 
+
 def _idx_str(idx):
     return ''.join([f'_{i + 1}' for i in idx])
 
@@ -73,19 +74,28 @@ class Switcher(GenericTree):
         return self.collector(buttons_f_node, buttons_f_leaf)
 
 
-
 class Doc(yt.Doc):
     def __init__(self, *args, **kwargs):
+        self._wrap_kwargs = {'max_width': kwargs.pop('max_width')} if 'max_width' in kwargs else {}
         super().__init__(*args, **kwargs)
         self._has_switcher = False
 
-    def wrap_to_page(self, title: Optional[str] = None, head_doc: Optional[yt.Doc] = None):
+    def wrap_to_page(self, title: Optional[str] = None, head_doc: Optional[yt.Doc] = None, **kwargs):
         """Wrap the content of the document into a full HTML page.
 
         Args:
             title: Title of the page.
             head_doc: Document containing the content of the `head` tag.
         """
+        kwargs = {**self._wrap_kwargs, **kwargs}
+
+        if 'max_width' in kwargs:
+            css = html_parts.css_base(max_width=kwargs.pop('max_width'))
+            body_klass = 'container'
+        else:
+            css = html_parts.css_base()
+            body_klass = 'container full-width'
+
         title = title or 'Yattag Doc'
         doc = Doc()
         doc.asis('<!DOCTYPE html>')
@@ -94,10 +104,10 @@ class Doc(yt.Doc):
                 doc.stag('meta', charset='UTF-8')
                 doc.line('title', title)
                 with doc.tag('style'):
-                    doc.asis(html_parts.css_base)
+                    doc.asis(css)
                 if head_doc is not None:
                     doc.asis(head_doc.getvalue())
-            with doc.tag('body'):
+            with doc.tag('body', klass=body_klass):
                 doc.asis(self.getvalue())
         return doc
 
@@ -105,8 +115,16 @@ class Doc(yt.Doc):
         self.asis(markdown.markdown(md))
         return self
 
-    def image_as_b64(self, fig, format='png', **kwargs):
+    def figure_as_b64(self, fig, format='png', **kwargs):
+        fig = fig.get_figure() if isinstance(fig, mpl.pyplot.Axes) else fig
         self.stag('image', src=f'data:image/{format};base64,{_fig_to_image_data(fig, format=format)}', **kwargs)
+        return self
+
+    def figures(self, figs, **kwargs):
+        figs = figs if isinstance(figs, list) else [figs]
+        with self.tag('div', klass='figures'):
+            for fig in figs:
+                self.figure_as_b64(fig, **kwargs)
         return self
 
     def switcher(self, switch: Switcher):
@@ -124,6 +142,19 @@ class Doc(yt.Doc):
             self.asis('\n')
 
         return self
+
+    def toggle_width(self):
+        with self.tag('div'):
+            self.line('button', 'Toggle width', id='toggleButton')
+            with self.tag('script'):
+                self.asis("""
+                    const toggleButton = document.getElementById('toggleButton');
+                    const container = document.querySelector('.container');
+
+                    toggleButton.addEventListener('click', () => {
+                      container.classList.toggle('full-width');
+                    });
+                """)
 
     def color_table(self, table, minmax=None, shared=True, cmap='RdYlGn', n_bins=51, eps=1e-8, formatter=None,
                     label_width=None):
