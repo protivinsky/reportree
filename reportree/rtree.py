@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Union
 import matplotlib.pyplot as plt
-from reportree.io import IWriter, LocalWriter
+from .io import IWriter, LocalWriter
 
 
 RTPlot = Union[plt.Figure, plt.Axes]
