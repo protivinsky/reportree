@@ -10,9 +10,9 @@ import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import seaborn as sns
-from reportree.generic_tree import GenericTree
-import reportree.html_parts as html_parts
-from reportree.io import LocalWriter, IWriter
+from .generic_tree import GenericTree
+from .html_parts import css_base, js_doc_tree_script
+from .io import LocalWriter, IWriter
 
 
 def _fig_to_image_data(fig: mpl.Figure, format='png'):
@@ -90,10 +90,10 @@ class Doc(yt.Doc):
         kwargs = {**self._wrap_kwargs, **kwargs}
 
         if 'max_width' in kwargs:
-            css = html_parts.css_base(max_width=kwargs.pop('max_width'))
+            css = css_base(max_width=kwargs.pop('max_width'))
             body_klass = 'container'
         else:
-            css = html_parts.css_base()
+            css = css_base()
             body_klass = 'container full-width'
 
         title = title or 'Yattag Doc'
@@ -138,7 +138,7 @@ class Doc(yt.Doc):
             self.asis('\n')
             self.asis('var buttonHierarchy = ' + hierarchy + ';')
             self.asis('\n')
-            self.asis(html_parts.js_doc_tree_script)
+            self.asis(js_doc_tree_script)
             self.asis('\n')
 
         return self

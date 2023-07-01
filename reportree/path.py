@@ -2,7 +2,7 @@ import os
 import re
 import shutil
 from typing import Optional
-from reportree import IRTree
+from .rtree import IRTree
 
 
 class Path(IRTree):

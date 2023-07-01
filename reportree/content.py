@@ -1,8 +1,8 @@
 import os
 from typing import Union
 from yattag import Doc, indent
-from reportree import IRTree
-from reportree.io import IWriter, LocalWriter
+from .rtree import IRTree
+from .io import IWriter, LocalWriter
 
 
 class Content(IRTree):

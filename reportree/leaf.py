@@ -1,7 +1,7 @@
 from __future__ import annotations
 import os
-from reportree import IRTree, RTPlot
-from reportree.io import IWriter, LocalWriter
+from .rtree import IRTree, RTPlot
+from .io import IWriter, LocalWriter
 from typing import Sequence, Union, Optional
 import matplotlib.pyplot as plt
 from yattag import Doc, indent

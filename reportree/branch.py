@@ -1,6 +1,7 @@
 import os
-from reportree import IRTree, RTPlot, Leaf
-from reportree.io import IWriter, LocalWriter, slugify
+from .rtree import IRTree, RTPlot
+from .leaf import Leaf
+from .io import IWriter, LocalWriter, slugify
 from typing import Sequence, Union, Optional
 from yattag import Doc, indent
 
