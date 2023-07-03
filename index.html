@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReporTree: Nested HTML reports for Matplotlib &mdash; ReporTree 0.0.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Branch" href="api/branch.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            ReporTree
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/branch.html">Branch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/content.html">Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/io.html">IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/irtree.html">IRTree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/leaf.html">Leaf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/path.html">Path</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">ReporTree</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ReporTree: Nested HTML reports for Matplotlib</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/protivinsky/reportree/blob/main/doc/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-reportree">
+<span id="reportree-nested-html-reports-for-matplotlib"></span><h1>ReporTree: Nested HTML reports for Matplotlib<a class="headerlink" href="#module-reportree" title="Permalink to this heading"></a></h1>
+<p>ReporTree produces nested static HTML reports with buttons to navigate through many matplotlib plots.
+The package can easily produce reports with many nested levels and hundreds of Matplotlib plots.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The selection of pages in nested reports works correctly only when served from the webserver (even the Python one
+works fine for local development, <cite>python -m http.server</cite>).</p>
+<p>The selection is done via Javascript and the targets are loaded on the fly. When the reports are
+displayed locally, different files are considered as Cross-Origin access and the loading is blocked
+by the browser. Single page reports (i.e. Leaves) work fine.</p>
+<p>This issue can be solved by using Mozilla Firefox for local browsing with changing
+<cite>security.fileuri.strict_origin_policy</cite> to <cite>false</cite> (in <cite>about:config</cite>).</p>
+</div>
+<section id="basic-example">
+<h2>Basic example<a class="headerlink" href="#basic-example" title="Permalink to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">reportree</span> <span class="k">as</span> <span class="nn">rt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">fig1</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Upward&#39;</span><span class="p">)</span>
+
+<span class="n">fig2</span><span class="p">,</span> <span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Downward&#39;</span><span class="p">)</span>
+
+<span class="n">l1</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">Leaf</span><span class="p">([</span><span class="n">fig1</span><span class="p">,</span> <span class="n">fig2</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Leaf example&#39;</span><span class="p">)</span>
+<span class="n">l1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;/tmp/example1&#39;</span><span class="p">)</span>
+
+<span class="n">l2</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">Leaf</span><span class="p">(</span><span class="n">fig1</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Only upward&#39;</span><span class="p">)</span>
+<span class="n">l3</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">Leaf</span><span class="p">(</span><span class="n">fig2</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Only downward&#39;</span><span class="p">)</span>
+
+<span class="n">b1</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">Branch</span><span class="p">([</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Branch example&#39;</span><span class="p">)</span>
+<span class="n">b1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;/tmp/example2&#39;</span><span class="p">)</span>
+
+<span class="n">b2</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">Branch</span><span class="p">([</span><span class="n">rt</span><span class="o">.</span><span class="n">Branch</span><span class="p">([</span><span class="n">b1</span><span class="p">,</span> <span class="n">l1</span><span class="p">]),</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">,</span> <span class="n">b1</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Nested example&#39;</span><span class="p">)</span>
+<span class="n">b2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;/tmp/example3&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The code produces following reports:</p>
+<section id="leaf-example">
+<h3>Leaf example<a class="headerlink" href="#leaf-example" title="Permalink to this heading"></a></h3>
+<a class="reference internal image-reference" href="_images/example1.png"><img alt="Example 1" src="_images/example1.png" style="width: 1000px;" /></a>
+</section>
+<section id="branch-example">
+<h3>Branch example<a class="headerlink" href="#branch-example" title="Permalink to this heading"></a></h3>
+<a class="reference internal image-reference" href="_images/example2.png"><img alt="Example 2" src="_images/example2.png" style="width: 1000px;" /></a>
+</section>
+<section id="nested-example">
+<h3>Nested example<a class="headerlink" href="#nested-example" title="Permalink to this heading"></a></h3>
+<a class="reference internal image-reference" href="_images/example3.png"><img alt="Example 3" src="_images/example3.png" style="width: 1000px;" /></a>
+</section>
+</section>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/branch.html">Branch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/content.html">Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/io.html">IO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/irtree.html">IRTree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/leaf.html">Leaf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/path.html">Path</a></li>
+</ul>
+</div>
+</section>
+<section id="index">
+<h1>Index<a class="headerlink" href="#index" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/branch.html" class="btn btn-neutral float-right" title="Branch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Tomas Protivinsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
