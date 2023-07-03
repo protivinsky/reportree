@@ -23,7 +23,7 @@ class GenericTree(defaultdict):
         else:
             child = super().__getitem__(key)
             if child.is_leaf():
-                return super().__getitem__(self._LEAF_KEY)
+                return child.get_value()
             else:
                 return child
 
